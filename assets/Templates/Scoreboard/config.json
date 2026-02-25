@@ -1,0 +1,14 @@
+{
+  "id": "simple-scoreboard",
+  "name": "Scoreboard",
+  "layer": "layer-scoreboard",
+  "fields": [
+    { "id": "homeName", "label": "Home Team", "type": "text", "default": "HOME" },
+    { "id": "homeScore", "label": "Home Score", "type": "score", "default": "0" },
+    { "id": "awayName", "label": "Away Team", "type": "text", "default": "AWAY" },
+    { "id": "awayScore", "label": "Away Score", "type": "score", "default": "0" },
+    { "id": "period", "label": "Period", "type": "text", "default": "1st" },
+    { "id": "top", "label": "Top Offset (px)", "type": "number", "default": "50" },
+    { "id": "left", "label": "Left Offset (px)", "type": "number", "default": "50" }
+  ]
+}

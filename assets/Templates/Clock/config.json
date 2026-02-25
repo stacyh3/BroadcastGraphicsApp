@@ -1,0 +1,9 @@
+{
+  "id": "digital-clock",
+  "name": "Digital Clock",
+  "layer": "layer-clock",
+  "fields": [
+    { "id": "top", "label": "Top Offset (px)", "type": "number", "default": "20" },
+    { "id": "right", "label": "Right Offset (px)", "type": "number", "default": "20" }
+  ]
+}

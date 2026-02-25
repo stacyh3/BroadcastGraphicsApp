@@ -1,0 +1,99 @@
+### Get Status
+GET http://localhost:8080/api/status
+
+### Play Rundown Item 0 (First Item)
+POST http://localhost:8080/api/rundown/0/play
+
+### Stop Rundown Item 0
+POST http://localhost:8080/api/rundown/0/stop
+
+### Play Rundown Item 1 (Second Item)
+POST http://localhost:8080/api/rundown/1/play
+
+### Hide Specific Graphic by ID
+POST http://localhost:8080/api/graphics/basic-lower-third/hide
+
+###
+POST http://localhost:8080/api/graphics/foo/hide
+
+###############################################
+# Video Controls (requires video graphic shown)
+###############################################
+
+### Play Video (Global Helper - controls last loaded video)
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "videoPlay()"
+}
+
+### Play Specific Video by ID (Default ID: video-element)
+# Use this if you have multiple videos or changed the Element ID in the rundown
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "document.getElementById('video-element-01').play()"
+}
+
+### Pause Video (Global Helper)
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "videoPause()"
+}
+
+### Pause Specific Video by ID
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "document.getElementById('video-element-01').pause()"
+}
+
+### Stop Video (Global Helper - pause + reset)
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "videoStop()"
+}
+
+### Stop Specific Video by ID
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "var v = document.getElementById('video-element'); if(v) { v.pause(); v.currentTime = 0; }"
+}
+
+### Toggle Video Fullscreen
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "toggleVideoFullscreen()"
+}
+
+### Seek Video to 30 seconds
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "videoSeek(30)"
+}
+
+###############################################
+# Generic Script Execution
+###############################################
+
+### Execute Custom Script
+POST http://localhost:8080/api/script
+Content-Type: application/json
+
+{
+  "script": "console.log('Hello from API')"
+}
+

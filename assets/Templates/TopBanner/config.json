@@ -1,0 +1,10 @@
+{
+  "id": "top-banner",
+  "name": "Top Banner (Branding)",
+  "layer": "layer-top-banner",
+  "fields": [
+    { "id": "imageUrl", "label": "Image Path", "type": "file", "default": "../Images/MSFT_logo.png" },
+    { "id": "width", "label": "Width (px)", "type": "number", "default": "300" },
+    { "id": "top", "label": "Top Offset (px)", "type": "number", "default": "20" }
+  ]
+}

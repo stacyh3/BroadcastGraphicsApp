@@ -1,0 +1,8 @@
+{
+  "id": "scrolling-ticker",
+  "name": "News Ticker",
+  "layer": "layer-ticker",
+  "fields": [
+    { "id": "text", "label": "Ticker Text", "type": "text", "default": "Breaking News: This is a scrolling ticker..." }
+  ]
+}

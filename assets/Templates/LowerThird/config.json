@@ -1,0 +1,11 @@
+{
+  "id": "basic-lower-third",
+  "name": "Basic Lower Third",
+  "layer": "layer-lower-third",
+  "fields": [
+    { "id": "name", "label": "Name", "type": "text", "default": "John Doe" },
+    { "id": "title", "label": "Title", "type": "text", "default": "Presenter" },
+    { "id": "bottom", "label": "Bottom Offset (px)", "type": "number", "default": "50" },
+    { "id": "left", "label": "Left Offset (px)", "type": "number", "default": "50" }
+  ]
+}

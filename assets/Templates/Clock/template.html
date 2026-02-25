@@ -1,0 +1,35 @@
+<div id="digital-clock" class="graphic-item hidden">
+    <span id="clock-time">00:00:00</span>
+</div>
+
+<style>
+    #digital-clock {
+        position: absolute;
+        top: {{top}}px;
+        right: {{right}}px;
+        background-color: var(--primary-color, rgba(0, 0, 0, 0.7));
+        color: var(--text-color, white);
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 2em;
+        transition: opacity 0.5s ease;
+        border: 2px solid var(--secondary-color, transparent);
+    }
+    #digital-clock.hidden {
+        opacity: 0;
+    }
+</style>
+
+<script>
+    (function() {
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            const el = document.getElementById('clock-time');
+            if(el) el.innerText = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    })();
+</script>

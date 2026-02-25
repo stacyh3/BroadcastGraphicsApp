@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #00FF00; /* Chroma Key Green */
+    overflow: hidden; /* Prevent scrollbars */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Optional: Class to switch to Luma Key Black */
+body.luma-key {
+    background-color: #000000;
+}
+
+#safe-area {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    /* border: 1px solid rgba(255,255,255,0.2); Debugging safe area */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align to bottom */
+}
+
+#lower-third {
+    background: linear-gradient(90deg, rgba(0,0,139,0.9) 0%, rgba(0,0,139,0) 100%);
+    color: white;
+    padding: 20px 40px;
+    border-left: 10px solid #FFD700; /* Gold accent */
+    transform: translateX(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    opacity: 1;
+    width: fit-content;
+    margin-bottom: 50px; /* Lift off bottom safe area */
+}
+
+#lower-third.hidden {
+    transform: translateX(-150%);
+    opacity: 0;
+}
+
+.content h1 {
+    margin: 0;
+    font-size: 3em;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.content h2 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 300;
+    color: #EEE;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}

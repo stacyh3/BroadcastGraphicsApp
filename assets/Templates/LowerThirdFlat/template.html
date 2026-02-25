@@ -1,0 +1,29 @@
+<div id="flat-lower-third" class="graphic-item hidden">
+    <div class="lt-content">
+        <h1 id="lt-name">{{name}}</h1>
+        <h2 id="lt-title">{{title}}</h2>
+    </div>
+</div>
+
+<style>
+    #flat-lower-third {
+        position: absolute;
+        bottom: {{bottom}}px;
+        left: {{left}}px;
+        background-color: var(--primary-color, #00008B);
+        color: var(--text-color, white);
+        padding: 20px 40px;
+        border-left: 10px solid var(--secondary-color, #FFD700);
+        transform: translateX(0);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        width: fit-content;
+        font-family: var(--font-family, 'Segoe UI');
+        box-shadow: 4px 4px 10px rgba(0,0,0,0.3); /* Added shadow for depth since gradient is gone */
+    }
+    #flat-lower-third.hidden {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+    .lt-content h1 { margin: 0; font-size: 3em; text-transform: uppercase; }
+    .lt-content h2 { margin: 0; font-size: 1.5em; font-weight: 300; color: #EEE; }
+</style>

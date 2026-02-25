@@ -1,0 +1,83 @@
+<div id="timer" class="graphic timer-graphic" style="position: absolute; top: {{top}}px; right: {{right}}px;">
+    <div class="timer-container">
+        <div class="timer-label">{{label}}</div>
+        <div class="timer-display" data-minutes="{{minutes}}" data-seconds="{{seconds}}" data-count-up="{{countUp}}">
+            <span class="timer-value">{{minutes}}:{{seconds}}</span>
+        </div>
+    </div>
+    <style>
+        .timer-container {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .timer-label {
+            font-family: var(--font-family);
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .timer-display {
+            font-family: var(--font-family);
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        .timer-value {
+            font-variant-numeric: tabular-nums;
+        }
+        .timer-warning {
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.5; }
+        }
+    </style>
+    <script>
+        (function() {
+            var container = document.querySelector('#timer .timer-display');
+            var valueSpan = container.querySelector('.timer-value');
+            var totalSeconds = parseInt(container.dataset.minutes) * 60 + parseInt(container.dataset.seconds);
+            var countUp = container.dataset.countUp === '1';
+            var currentSeconds = countUp ? 0 : totalSeconds;
+            var interval = null;
+            
+            function formatTime(secs) {
+                var m = Math.floor(secs / 60);
+                var s = secs % 60;
+                return m + ':' + (s < 10 ? '0' : '') + s;
+            }
+            
+            function tick() {
+                if (countUp) {
+                    currentSeconds++;
+                    if (currentSeconds >= totalSeconds) {
+                        clearInterval(interval);
+                        container.classList.add('timer-warning');
+                    }
+                } else {
+                    currentSeconds--;
+                    if (currentSeconds <= 0) {
+                        currentSeconds = 0;
+                        clearInterval(interval);
+                        container.classList.add('timer-warning');
+                    }
+                    if (currentSeconds <= 30) {
+                        container.classList.add('timer-warning');
+                    }
+                }
+                valueSpan.textContent = formatTime(currentSeconds);
+            }
+            
+            valueSpan.textContent = formatTime(currentSeconds);
+            interval = setInterval(tick, 1000);
+        })();
+    </script>
+</div>

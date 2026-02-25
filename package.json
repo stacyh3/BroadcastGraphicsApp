@@ -1,0 +1,55 @@
+{
+  "name": "broadcast-graphics",
+  "version": "1.0.0",
+  "description": "Cross-platform broadcast graphics control panel",
+  "main": "dist/main.js",
+  "scripts": {
+    "build:ts": "tsc",
+    "start": "tsc && electron .",
+    "build:win": "tsc && electron-builder --win",
+    "build:mac": "tsc && electron-builder --mac",
+    "build": "tsc && electron-builder --win --mac"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.0",
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "build": {
+    "appId": "com.broadcastgraphics.app",
+    "productName": "Broadcast Graphics",
+    "files": [
+      "dist/**/*",
+      "ui/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets",
+        "to": "assets",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.video",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}

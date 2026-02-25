@@ -1,0 +1,74 @@
+<div id="simple-scoreboard" class="graphic-item hidden">
+    <div class="sb-container">
+        <div class="sb-team home">
+            <span class="sb-name">{{homeName}}</span>
+            <span class="sb-score">{{homeScore}}</span>
+        </div>
+        <div class="sb-divider">VS</div>
+        <div class="sb-team away">
+            <span class="sb-score">{{awayScore}}</span>
+            <span class="sb-name">{{awayName}}</span>
+        </div>
+        <div class="sb-period">{{period}}</div>
+    </div>
+</div>
+
+<style>
+    #simple-scoreboard {
+        position: absolute;
+        top: {{top}}px;
+        left: {{left}}px;
+        font-family: var(--font-family, 'Segoe UI');
+        color: var(--text-color, white);
+        transform: translateY(0);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    }
+    #simple-scoreboard.hidden {
+        transform: translateY(-150%);
+        opacity: 0;
+    }
+    .sb-container {
+        display: flex;
+        align-items: center;
+        background-color: var(--primary-color, #00008B);
+        border-bottom: 4px solid var(--secondary-color, #FFD700);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .sb-team {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+    }
+    .sb-name {
+        font-size: 1.5em;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0 15px;
+    }
+    .sb-score {
+        font-size: 2em;
+        font-weight: 900;
+        background: rgba(0,0,0,0.3);
+        padding: 5px 15px;
+        border-radius: 4px;
+        min-width: 40px;
+        text-align: center;
+    }
+    .sb-divider {
+        font-size: 0.8em;
+        opacity: 0.7;
+        padding: 0 5px;
+    }
+    .sb-period {
+        background-color: var(--secondary-color, #FFD700);
+        color: black;
+        padding: 5px 10px;
+        font-weight: bold;
+        font-size: 0.9em;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+    }
+</style>

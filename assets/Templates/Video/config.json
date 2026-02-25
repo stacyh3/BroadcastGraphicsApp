@@ -1,0 +1,17 @@
+{
+  "id": "video",
+  "name": "Video Player",
+  "layer": "layer-video",
+  "fields": [
+    { "id": "source", "label": "Video File", "type": "file", "default": "" },
+    { "id": "elementId", "label": "DOM Element ID", "type": "text", "default": "video-element" },
+    { "id": "fullscreen", "label": "Fullscreen (1=Yes, 0=No)", "type": "number", "default": "0" },
+    { "id": "loop", "label": "Loop (1=Yes, 0=No)", "type": "number", "default": "0" },
+    { "id": "muted", "label": "Muted (1=Yes, 0=No)", "type": "number", "default": "0" },
+    { "id": "autoplay", "label": "Autoplay (1=Yes, 0=No)", "type": "number", "default": "1" },
+    { "id": "width", "label": "Width (px, 0=auto)", "type": "number", "default": "640" },
+    { "id": "height", "label": "Height (px, 0=auto)", "type": "number", "default": "360" },
+    { "id": "top", "label": "Top Offset (px)", "type": "number", "default": "100" },
+    { "id": "left", "label": "Left Offset (px)", "type": "number", "default": "100" }
+  ]
+}

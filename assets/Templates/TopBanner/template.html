@@ -1,0 +1,29 @@
+<div id="top-banner" class="graphic-item hidden">
+    <img id="tb-image" src="{{imageUrl}}" alt="Banner" />
+</div>
+
+<style>
+    #top-banner {
+        position: absolute;
+        top: {{top}}px;
+        left: 50%;
+        transform: translateX(-50%) translateY(0); /* Center horizontally */
+        background-color: transparent;
+        padding: 10px 30px;
+        border-radius: 0 0 10px 10px;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        z-index: 1000; /* Ensure it's on top */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #top-banner.hidden {
+        transform: translateX(-50%) translateY(-150%);
+        opacity: 0;
+    }
+    #tb-image {
+        width: {{width}}px;
+        height: auto;
+        display: block;
+    }
+</style>

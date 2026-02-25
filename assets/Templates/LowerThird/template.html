@@ -1,0 +1,28 @@
+<div id="basic-lower-third" class="graphic-item hidden">
+    <div class="lt-content">
+        <h1 id="lt-name">{{name}}</h1>
+        <h2 id="lt-title">{{title}}</h2>
+    </div>
+</div>
+
+<style>
+    #basic-lower-third {
+        position: absolute;
+        bottom: {{bottom}}px;
+        left: {{left}}px;
+        background: linear-gradient(90deg, var(--primary-color, rgba(0,0,139,0.9)) 0%, rgba(0,0,139,0) 100%);
+        color: var(--text-color, white);
+        padding: 20px 40px;
+        border-left: 10px solid var(--secondary-color, #FFD700);
+        transform: translateX(0);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        width: fit-content;
+        font-family: var(--font-family, 'Segoe UI');
+    }
+    #basic-lower-third.hidden {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+    .lt-content h1 { margin: 0; font-size: 3em; text-transform: uppercase; }
+    .lt-content h2 { margin: 0; font-size: 1.5em; font-weight: 300; color: #EEE; }
+</style>
