@@ -13,6 +13,19 @@ const lstRundown = document.getElementById('lstRundown');
 const lstActiveGraphics = document.getElementById('lstActiveGraphics');
 const pnlProperties = document.getElementById('pnlProperties');
 const previewFrame = document.getElementById('previewFrame');
+const btnRenameRundown = document.getElementById('btnRenameRundown');
+const btnRemoveRundown = document.getElementById('btnRemoveRundown');
+const btnMoveUp = document.getElementById('btnMoveUp');
+const btnMoveDown = document.getElementById('btnMoveDown');
+
+function updateRundownToolbarState() {
+    const hasSelection = selectedRundownId !== null;
+    const idx = rundownItems.findIndex(i => i.id === selectedRundownId);
+    btnRenameRundown.disabled = !hasSelection;
+    btnRemoveRundown.disabled = !hasSelection;
+    btnMoveUp.disabled = !hasSelection || idx <= 0;
+    btnMoveDown.disabled = !hasSelection || idx < 0 || idx >= rundownItems.length - 1;
+}
 
 // ─── Init ───
 
@@ -22,6 +35,7 @@ async function init() {
 
     renderTemplateList();
     renderRundown();
+    updateRundownToolbarState();
     initPreview();
     await refreshMonitors();
 
@@ -86,6 +100,11 @@ function renderRundown() {
             selectRundownItem(item.id);
         });
 
+        li.addEventListener('dblclick', (e) => {
+            if (e.target.closest('.toggle-btn')) return;
+            startInlineRename(li, item);
+        });
+
         const toggleBtn = li.querySelector('.toggle-btn');
         toggleBtn.addEventListener('click', () => toggleRundownItem(item.id));
 
@@ -101,6 +120,7 @@ function selectRundownItem(id) {
     clearTemplateSelection();
     clearActiveSelection();
     generateProperties();
+    updateRundownToolbarState();
 }
 
 function clearRundownSelection() {
@@ -128,6 +148,41 @@ async function toggleRundownItem(id) {
 }
 
 // ─── Active Graphics ───
+
+function startInlineRename(li, item) {
+    selectRundownItem(item.id);
+    const nameSpan = li.querySelector('.name');
+    if (!nameSpan) return;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'rename-input';
+    input.value = item.name;
+    nameSpan.replaceWith(input);
+    input.focus();
+    input.select();
+
+    let committed = false;
+    async function commitRename() {
+        if (committed) return;
+        committed = true;
+        const newName = input.value.trim();
+        try {
+            if (newName && newName !== item.name) {
+                await window.api.renameRundownItem(item.id, newName);
+                rundownItems = await window.api.getRundown();
+            }
+        } finally {
+            renderRundown();
+            updateRundownToolbarState();
+        }
+    }
+
+    input.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); await commitRename(); }
+        if (e.key === 'Escape') { e.preventDefault(); committed = true; renderRundown(); }
+    });
+    input.addEventListener('blur', commitRename, { once: true });
+}
 
 function renderActiveGraphics() {
     lstActiveGraphics.innerHTML = '';
@@ -212,12 +267,28 @@ function generateProperties() {
 
     // "Add to Scene" button if selecting from template library (not an existing active/rundown item)
     if (selectedTemplateId && !selectedRundownId && !selectedActiveId) {
+        const btnRow = document.createElement('div');
+        btnRow.style.cssText = 'display:flex; gap:8px; margin-bottom:10px;';
+
         const btnAdd = document.createElement('button');
         btnAdd.className = 'btn btn-accent';
         btnAdd.textContent = 'Add to Scene';
-        btnAdd.style.marginBottom = '10px';
         btnAdd.addEventListener('click', () => addToScene(template, fieldValues));
-        pnlProperties.appendChild(btnAdd);
+
+        const btnAddRundown = document.createElement('button');
+        btnAddRundown.className = 'btn';
+        btnAddRundown.textContent = 'Add to Rundown';
+        btnAddRundown.addEventListener('click', async () => {
+            const values = collectFieldValues();
+            await window.api.addRundownItem(template.id, template.name, values);
+            rundownItems = await window.api.getRundown();
+            renderRundown();
+            updateRundownToolbarState();
+        });
+
+        btnRow.appendChild(btnAdd);
+        btnRow.appendChild(btnAddRundown);
+        pnlProperties.appendChild(btnRow);
     }
 
     for (const field of template.fields) {
@@ -349,16 +420,11 @@ document.getElementById('btnLoadRundown').addEventListener('click', async () => 
     renderRundown();
 });
 
-document.getElementById('btnRenameRundown').addEventListener('click', async () => {
+document.getElementById('btnRenameRundown').addEventListener('click', () => {
     if (!selectedRundownId) return;
+    const li = lstRundown.querySelector(`li[data-id="${selectedRundownId}"]`);
     const item = rundownItems.find(i => i.id === selectedRundownId);
-    if (!item) return;
-    const newName = prompt('Rename item:', item.name);
-    if (newName !== null && newName.trim()) {
-        await window.api.renameRundownItem(selectedRundownId, newName.trim());
-        rundownItems = await window.api.getRundown();
-        renderRundown();
-    }
+    if (li && item) startInlineRename(li, item);
 });
 
 document.getElementById('btnRemoveRundown').addEventListener('click', async () => {
@@ -368,6 +434,27 @@ document.getElementById('btnRemoveRundown').addEventListener('click', async () =
     rundownItems = await window.api.getRundown();
     renderRundown();
     renderEmptyProperties();
+    updateRundownToolbarState();
+});
+
+document.getElementById('btnMoveUp').addEventListener('click', async () => {
+    if (!selectedRundownId) return;
+    const idx = rundownItems.findIndex(i => i.id === selectedRundownId);
+    if (idx <= 0) return;
+    await window.api.moveRundownItem(idx, idx - 1);
+    rundownItems = await window.api.getRundown();
+    renderRundown();
+    updateRundownToolbarState();
+});
+
+document.getElementById('btnMoveDown').addEventListener('click', async () => {
+    if (!selectedRundownId) return;
+    const idx = rundownItems.findIndex(i => i.id === selectedRundownId);
+    if (idx < 0 || idx >= rundownItems.length - 1) return;
+    await window.api.moveRundownItem(idx, idx + 1);
+    rundownItems = await window.api.getRundown();
+    renderRundown();
+    updateRundownToolbarState();
 });
 
 // ─── Editor Buttons ───
@@ -384,6 +471,10 @@ document.getElementById('btnSaveAsRundown').addEventListener('click', async () =
     if (activeGraphics.length === 0) {
         alert('No active graphics to save.');
         return;
+    }
+    if (rundownItems.length > 0) {
+        const ok = confirm('This will replace the current rundown. Continue?');
+        if (!ok) return;
     }
     const items = activeGraphics.map(item => ({
         templateId: item.templateId,
