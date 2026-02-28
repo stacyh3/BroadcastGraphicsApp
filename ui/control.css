@@ -105,6 +105,28 @@ body {
     justify-content: center;
 }
 
+.btn.btn-icon-text {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-width: 0;
+}
+
+.btn.btn-danger { border-color: var(--danger); }
+.btn.btn-danger:hover { background: var(--danger); }
+
+/* Inline rename input inside rundown list */
+.rundown-row .rename-input {
+    flex: 1;
+    background: var(--bg-window);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    color: var(--text-primary);
+    font-size: 13px;
+    padding: 1px 4px;
+    outline: none;
+    min-width: 0;
+}
+
 .rundown-toolbar {
     display: flex; gap: 6px; margin-bottom: 4px; align-items: center;
 }
